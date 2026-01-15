@@ -1,0 +1,116 @@
+# Dependabot configuration for automatic GitHub Actions updates
+# This keeps your action versions up-to-date automatically
+
+version: 2
+updates:
+  # Update GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    reviewers:
+      - "decod3rs" # Replace with your GitHub username
+    open-pull-requests-limit: 10
+
+  # Update GitHub Actions in api.genfeed.ai
+  - package-ecosystem: "github-actions"
+    directory: "/api.genfeed.ai"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "ci(api)"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "api"
+    open-pull-requests-limit: 10
+
+  # Update GitHub Actions in genfeed.ai
+  - package-ecosystem: "github-actions"
+    directory: "/genfeed.ai"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    commit-message:
+      prefix: "ci(frontend)"
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "frontend"
+    open-pull-requests-limit: 10
+
+  # Update npm dependencies in api.genfeed.ai (optional)
+  - package-ecosystem: "npm"
+    directory: "/api.genfeed.ai"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    commit-message:
+      prefix: "chore(api)"
+    labels:
+      - "dependencies"
+      - "npm"
+      - "api"
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    groups:
+      # Group NestJS updates together
+      nestjs:
+        patterns:
+          - "@nestjs/*"
+      # Group testing dependencies
+      testing:
+        patterns:
+          - "jest*"
+          - "@types/jest"
+          - "ts-jest"
+      # Group linting dependencies
+      linting:
+        patterns:
+          - "eslint*"
+          - "@typescript-eslint/*"
+
+  # Update npm dependencies in genfeed.ai (optional)
+  - package-ecosystem: "npm"
+    directory: "/genfeed.ai"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    commit-message:
+      prefix: "chore(frontend)"
+    labels:
+      - "dependencies"
+      - "npm"
+      - "frontend"
+    open-pull-requests-limit: 5
+    versioning-strategy: increase
+    groups:
+      # Group Next.js updates together
+      nextjs:
+        patterns:
+          - "next"
+          - "next-*"
+      # Group React updates
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+          - "@types/react*"
+      # Group testing dependencies
+      testing:
+        patterns:
+          - "@playwright/*"
+          - "vitest*"
