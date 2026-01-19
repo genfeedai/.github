@@ -18,14 +18,15 @@ AI-first content creation platform for social media creators and agencies.
 
 | Project | Description |
 |---------|-------------|
-| [genfeed](https://github.com/genfeedai/genfeed) | Open source AI content generation toolkit |
+| [core](https://docs.genfeed.ai/core) | Open source AI content generation toolkit |
+| [cloud](https://docs.genfeed.ai/cloud) | Genfeed Cloud SaaS platform |
 | [docs](https://github.com/genfeedai/docs) | Platform documentation and guides |
 
 ## Links
 
 - [Website](https://genfeed.ai)
 - [Documentation](https://docs.genfeed.ai)
-- [Status](https://status.genfeed.ai)
+- [Status](https://genfeed.statuspage.io/)
 
 ---
 
