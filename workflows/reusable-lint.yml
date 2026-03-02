@@ -1,0 +1,53 @@
+name: Reusable — Lint & Format
+
+on:
+  workflow_call:
+    inputs:
+      bun-version:
+        description: 'Bun version to use'
+        type: string
+        default: '1.3.9'
+      working-directory:
+        description: 'Working directory (for monorepo sub-apps)'
+        type: string
+        default: '.'
+      lint-command:
+        description: 'Lint command to run'
+        type: string
+        default: 'bun run lint'
+      format-command:
+        description: 'Format check command to run'
+        type: string
+        default: 'bun run format:check'
+      skip-format:
+        description: 'Skip format check (if repo uses different formatter)'
+        type: boolean
+        default: false
+    secrets:
+      TURBO_TOKEN:
+        required: false
+
+jobs:
+  lint:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ inputs.bun-version }}
+      - uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+      - run: bun install --frozen-lockfile
+      - name: Check formatting
+        if: ${{ !inputs.skip-format }}
+        run: ${{ inputs.format-command }}
+      - name: Lint
+        run: ${{ inputs.lint-command }}

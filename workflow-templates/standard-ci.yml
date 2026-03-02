@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main, master, develop, staging]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'LICENSE'
+  push:
+    branches: [staging]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    uses: genfeedai/.github/.github/workflows/reusable-lint.yml@main
+
+  type-check:
+    uses: genfeedai/.github/.github/workflows/reusable-typecheck.yml@main
+
+  build:
+    needs: [lint, type-check]
+    uses: genfeedai/.github/.github/workflows/reusable-build.yml@main
+
+  test:
+    needs: [lint, type-check]
+    uses: genfeedai/.github/.github/workflows/reusable-test.yml@main
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

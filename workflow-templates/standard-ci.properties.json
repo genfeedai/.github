@@ -1,0 +1,6 @@
+{
+  "name": "GenFeed Standard CI",
+  "description": "Lint, typecheck, build, and test. Drop-in CI for any GenFeed repo.",
+  "iconName": "octicon shield-check",
+  "categories": ["continuous-integration"]
+}

@@ -1,0 +1,57 @@
+name: Reusable — Type Check
+
+on:
+  workflow_call:
+    inputs:
+      bun-version:
+        type: string
+        default: '1.3.9'
+      working-directory:
+        type: string
+        default: '.'
+      typecheck-command:
+        description: 'Typecheck command (default: bun run type-check)'
+        type: string
+        default: 'bun run type-check'
+      typecheck-pr-command:
+        description: 'Typecheck command for PRs (affected only). Empty = use typecheck-command for both.'
+        type: string
+        default: ''
+      build-packages-before:
+        description: 'Turbo filter args to build shared packages before typechecking'
+        type: string
+        default: ''
+    secrets:
+      TURBO_TOKEN:
+        required: false
+
+jobs:
+  type-check:
+    name: Type Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ inputs.bun-version }}
+      - uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+      - run: bun install --frozen-lockfile
+      - name: Build shared packages
+        if: ${{ inputs.build-packages-before != '' }}
+        run: bunx turbo build ${{ inputs.build-packages-before }}
+      - name: Type check (PR - affected only)
+        if: github.event_name == 'pull_request' && inputs.typecheck-pr-command != ''
+        run: ${{ inputs.typecheck-pr-command }}
+      - name: Type check
+        if: github.event_name != 'pull_request' || inputs.typecheck-pr-command == ''
+        run: ${{ inputs.typecheck-command }}

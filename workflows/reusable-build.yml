@@ -1,0 +1,51 @@
+name: Reusable — Build
+
+on:
+  workflow_call:
+    inputs:
+      bun-version:
+        type: string
+        default: '1.3.9'
+      working-directory:
+        type: string
+        default: '.'
+      build-command:
+        description: 'Build command to run'
+        type: string
+        default: 'bun run build'
+      node-options:
+        description: 'NODE_OPTIONS env var (e.g. --max-old-space-size=8192)'
+        type: string
+        default: ''
+    secrets:
+      TURBO_TOKEN:
+        required: false
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: ${{ inputs.working-directory }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ inputs.bun-version }}
+      - uses: actions/cache@v5
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-
+      - uses: actions/cache@v5
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ hashFiles('turbo.json', '**/bun.lock') }}
+          restore-keys: ${{ runner.os }}-turbo-
+      - run: bun install --frozen-lockfile
+      - name: Build
+        run: ${{ inputs.build-command }}
+        env:
+          NODE_OPTIONS: ${{ inputs.node-options }}
