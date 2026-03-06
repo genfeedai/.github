@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate-standards:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate required standards files
+        run: |
+          set -euo pipefail
+          test -s .github/PULL_REQUEST_TEMPLATE.md
+          test -s .github/workflows/reusable-lint.yml
+          test -s .github/workflows/reusable-typecheck.yml
+          test -s .github/workflows/reusable-build.yml
