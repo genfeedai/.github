@@ -1,34 +1,27 @@
-## What
+## Summary
 
-<!-- Brief description of what this PR changes -->
+<!-- What changed and what user, developer, or repository outcome does it produce? -->
 
-## Closes
+## Related issue
 
-<!-- REQUIRED when this PR completes an issue: use a GitHub closing keyword so the
-     issue auto-closes on merge to the default branch. One line per issue.
-     "Closes #123" / "Fixes #123" / "Resolves #123" work.
-     "Refs #123", "part of #123", bare "#123", or prose like "closes the gap from #123" do NOT close anything.
-     If this PR only contributes partial progress, use "Refs #123" here instead — deliberately. -->
+<!-- Use `Closes #123` when this PR fully resolves tracked work. Use `Refs #123` for context only. If no tracking issue exists, write `No-Issue` and explain why. Repositories may require a closing keyword for feat/fix PRs. -->
 
-Closes #
+## Scope
 
-## Why
+<!-- Call out important boundaries, public contracts, migrations, generated files, or intentionally excluded work. -->
 
-<!-- Why this change is needed; link related (non-closing) issues with "Refs #" -->
+## Verification
 
-## How
+<!-- List focused commands or manual checks and their results. State which broader checks are intentionally left to CI. -->
 
-<!-- Implementation summary and key technical decisions -->
+## Screenshots
 
-## Testing
-
-- [ ] Lint passes
-- [ ] Type-check passes
-- [ ] Tests pass (if applicable)
-- [ ] Build passes (if applicable)
+<!-- Required for visible UI changes; otherwise write "Not applicable". -->
 
 ## Checklist
 
-- [ ] No secrets added (`.env`, keys, credentials)
-- [ ] Docs updated if behavior changed
-- [ ] Backward compatibility impact assessed
+- [ ] I reviewed the final diff for unrelated changes.
+- [ ] I ran the relevant focused checks or documented why they were left to CI.
+- [ ] I updated relevant documentation or explained why no documentation change is needed.
+- [ ] I documented migrations, release steps, or external configuration changes, or marked them not applicable.
+- [ ] I did not include secrets, credentials, personal data, customer data, or generated build output.
