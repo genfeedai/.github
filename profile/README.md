@@ -1,50 +1,69 @@
 <h1 align="center">Genfeed.ai</h1>
 
-<p align="center"><strong>The open source AI OS for content creation.</strong></p>
+<p align="center"><strong>The open-source content agent.</strong></p>
 
-<p align="center">Create, Remix, Publish, Repeat.</p>
+<p align="center">Create on-brand videos, images and posts, then review and publish to your connected channels.<br>Work in Genfeed or connect the AI agent you already use.</p>
 
 <p align="center">
-  <a href="https://github.com/genfeedai/genfeed.ai/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue.svg" alt="License: AGPL-3.0"></a>
+  <a href="https://genfeed.ai">Website</a> ·
+  <a href="https://app.genfeed.ai">Hosted app</a> ·
+  <a href="https://docs.genfeed.ai">Docs</a> ·
+  <a href="https://genfeed.ai/pricing">Pricing</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/genfeedai/genfeed.ai/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-AGPL--3.0--or--later-blue.svg" alt="License: AGPL-3.0-or-later"></a>
+  <a href="https://github.com/genfeedai/genfeed.ai/releases/latest"><img src="https://img.shields.io/github/v/release/genfeedai/genfeed.ai?label=release" alt="Latest release"></a>
   <a href="https://github.com/genfeedai/genfeed.ai/stargazers"><img src="https://img.shields.io/github/stars/genfeedai/genfeed.ai?style=social" alt="GitHub Stars"></a>
-  <a href="https://discord.gg/genfeedai"><img src="https://img.shields.io/discord/placeholder?label=Discord&logo=discord&color=5865F2" alt="Discord"></a>
 </p>
 
 ---
 
 ## What is Genfeed.ai?
 
-A self-hostable, AI-powered content creation platform. Generate images, video, voice, music, and text through a visual workflow editor, then schedule and publish to any platform from a single interface. Deploy with Docker in minutes.
+An AI content agent that makes the posts, images and videos your brand publishes. Describe what you need, review the draft, and schedule it to your connected channels. Everything runs on the same open-source code in three modes:
 
-- **AI Content Generation** — images, video, text, voice, and music via pluggable model providers
-- **Visual Workflow Editor** — chain generation, transforms, and publishing into reusable pipelines
-- **Multi-Platform Publishing** — Twitter/X, LinkedIn, Instagram, TikTok, YouTube, Discord, Telegram, Slack, Fanvue, and more
-- **Scheduling & Automation** — calendar-based scheduling with cron and event-driven triggers
-- **Studio, Gallery, Editor** — quick generation, asset management, and media composition
-- **Desktop & Mobile** — native Electron apps and a React Native / Expo mobile app
-- **Self-Hosted GPU** — bring your own GPU with ComfyUI integration
+| Mode | Who it is for | How you get it |
+|------|---------------|----------------|
+| **SaaS** | Teams who want it hosted | [app.genfeed.ai](https://app.genfeed.ai) |
+| **Community** | Self-hosters, one organization | Checksummed Docker bundle from [GitHub Releases](https://github.com/genfeedai/genfeed.ai/releases/latest) |
+| **Desktop** | Solo creators on a Mac | Signed macOS builds, or `brew install --cask genfeedai/tap/genfeed` |
+
+- **Generate** images, video, voice, audio and text through pluggable model providers, or your own keys
+- **Work from any agent** — drive the same loop from the web app, the CLI, the REST API, or Claude, Codex, Cursor, Gemini CLI and more over [MCP](https://github.com/genfeedai/agent)
+- **Approval-first publishing** — agents can generate, draft and schedule; publishing waits for a human
+- **Brand and workflows** — brand profile, content library, visual workflow editor, scheduling and publishing to your social channels
+
+Genfeed is `0.x` and under active development. Breaking changes ship with an upgrade note in the release body.
 
 ## Repositories
 
-Everything lives in **one monorepo** now. The platform is fully open source.
-
 | Repo | Description |
 |------|-------------|
-| **[genfeed.ai](https://github.com/genfeedai/genfeed.ai)** | The platform monorepo — every app, service, and package. Next.js + NestJS, Docker-deployable, AGPL-3.0. |
-| **[skills](https://github.com/genfeedai/skills)** | AI skills for content creation, SEO, advertising, image prompting, and strategy. Works standalone with Claude Code — works better with Genfeed.ai. |
+| **[genfeed.ai](https://github.com/genfeedai/genfeed.ai)** | The platform monorepo: web app, API, workers, MCP server, desktop, CLI and shared packages. Next.js + NestJS, AGPL-3.0. |
+| **[agent](https://github.com/genfeedai/agent)** | Genfeed for AI agents: playbook skill, MCP connector manifests and install paths for Claude, Codex, Cursor, Gemini CLI, Grok and ChatGPT. |
+| **[skills](https://github.com/genfeedai/skills)** | Content skills for strategy, SEO, ads, social, image and video prompting. Work standalone with Claude Code; work better with Genfeed. |
+| **[benchmark](https://github.com/genfeedai/benchmark)** | An independent benchmark for image and video models: public tasks, blind pairwise judging, Elo. Season One is announced and the ladder is still empty. |
 
-> The former `core`, `cloud`, `cli`, `docs`, and `packages` repos have been consolidated into the [genfeed.ai](https://github.com/genfeedai/genfeed.ai) monorepo.
+## Quick start
 
-## Quick Start
+**Self-host (Community):**
 
 ```bash
-git clone https://github.com/genfeedai/genfeed.ai.git
-cd genfeed.ai/docker
-cp .env.example .env
-docker compose up
+curl -fLO https://github.com/genfeedai/genfeed.ai/releases/latest/download/genfeed-selfhosted.tar.gz
+tar -xzf genfeed-selfhosted.tar.gz && cd genfeed-selfhosted-v*
+cp .env.example .env && docker compose --env-file .env -f compose.yml up -d
 ```
 
-Install the skills with the [`skills`](https://github.com/genfeedai/skills) CLI:
+Then open `http://localhost:3000`. See the [self-hosting guide](https://github.com/genfeedai/genfeed.ai/blob/master/docs/self-hosting.md) for providers, auth and upgrades.
+
+**Connect your agent (Claude Code):**
+
+```text
+/plugin install genfeed --marketplace genfeedai/agent
+```
+
+**Add the content skills:**
 
 ```bash
 bunx skills add genfeedai/skills
@@ -52,11 +71,14 @@ bunx skills add genfeedai/skills
 
 ## Stack
 
-Turborepo + Bun monorepo · Next.js · NestJS (12 microservices) · PostgreSQL (Prisma) · Redis + BullMQ · Docker.
+Bun + Turborepo monorepo · Next.js 16 · NestJS 11 · PostgreSQL (Prisma) · Redis + BullMQ · Better Auth · Docker.
+
+## Contribute
+
+Issues and PRs are welcome on [genfeed.ai](https://github.com/genfeedai/genfeed.ai). Read [CONTRIBUTING.md](https://github.com/genfeedai/genfeed.ai/blob/master/CONTRIBUTING.md) first; agent-authored PRs are accepted when disclosed. Report security issues per [SECURITY.md](https://github.com/genfeedai/genfeed.ai/blob/master/SECURITY.md), never in a public issue.
 
 ## Links
 
-- [Website](https://genfeed.ai)
-- [Documentation](https://docs.genfeed.ai)
-- [Discord](https://discord.gg/genfeedai)
-- [Status](https://genfeed.statuspage.io/)
+- [Website](https://genfeed.ai) · [Hosted app](https://app.genfeed.ai) · [Product docs](https://docs.genfeed.ai)
+- [Releases](https://github.com/genfeedai/genfeed.ai/releases) · [Project board](https://github.com/orgs/genfeedai/projects/12)
+- [Discussions](https://github.com/genfeedai/genfeed.ai/discussions)
