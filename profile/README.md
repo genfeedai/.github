@@ -1,4 +1,6 @@
-<h1 align="center">Genfeed.ai</h1>
+<p align="center">
+  <a href="https://genfeed.ai"><img src="https://raw.githubusercontent.com/genfeedai/.github/master/profile/assets/banner.png" alt="Genfeed.ai — The open-source content agent" width="100%"></a>
+</p>
 
 <p align="center"><strong>The open-source content agent.</strong></p>
 
